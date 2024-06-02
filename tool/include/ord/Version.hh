@@ -1,5 +1,0 @@
-#define OPENROAD_VERSION "v2.0-11175-gd03f2360e"
-
-#define OPENROAD_GIT_DESCRIBE ""
-
-/* #undef BUILD_OPENPHYSYN */
