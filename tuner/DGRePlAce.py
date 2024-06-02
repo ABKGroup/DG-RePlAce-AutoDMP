@@ -1,18 +1,3 @@
-# SPDX-FileCopyrightText: Copyright (c) 2022 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
-# SPDX-License-Identifier: Apache-2.0
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 from dataclasses import make_dataclass, fields, asdict
 from operator import itemgetter
 import os
@@ -46,7 +31,8 @@ class DGRePlAce:
         self.halo_width = 2.0
         self.virtualIter = 4
         self.numHops = 4
-        self.exe = "/mnt/dgx_projects/zhiang/AutoDMP-DG-RePlAce/OpenROAD/build/src/openroad"
+        #replace your openroad exe here
+        self.exe = os.getcwd() + "/OpenROAD-tool/build/src/openroad"
         self.template_file = ""
 
     def setup_rawdb(self):
@@ -90,8 +76,6 @@ class DGRePlAce:
 
     def run(self, work_dir):
         print("Running DG-RePlAce")
-        #self.exe = self.params.exe
-        #self.template_file = self.params.template_file
         print("template_file = ", self.template_file)
     
         self.density = float(self.params.target_density)
@@ -133,8 +117,6 @@ class DGRePlAce:
         self.max_density = 1e9
         self.niter = 5000
 
-
-        #cmd = "source /home/dgx_projects/zhiang/unload.sh\n"
         log_file = self.template_file + ".log"
         cmd = self.exe + "  " + self.template_file + " | tee " + log_file
         print("cmd = ", cmd)
@@ -155,31 +137,6 @@ class DGRePlAce:
             # Here you can implement additional logic to terminate the command if needed
             # Note: os.system does not provide an easy way to terminate the process,
             # so you might need to use platform-specific methods to kill the process
-
-        #try:
-        #    result = subprocess.run(cmd, shell=True, timeout=1800, check=True, text=True, capture_output=True)
-        #    print(result.stdout)
-        #except subprocess.TimeoutExpired:
-        #    print("The command timed out after 30 minutes.")
-        #except subprocess.CalledProcessError as e:
-        #    print(f"The command failed with return code {e.returncode}. Output: {e.output}")
-
-        #cmd = self.exe + "  " + self.template_file + " | tee run.log"
-        #print("cmd = ", cmd)
-        #os.system(cmd)
-
-        #with open("run.log", 'r') as file:
-        #    results_content = file.read().splitlines()
-        #file.close()
-
-
-
-        #for line in results_content:
-        #if (os.path.exists(log_file)):
-        #    self.parseLogFile(log_file)
-        #else:
-        #    print("log_file, ", log_file, " does not exist")
-            #exit(1)
 
         os.chdir(pwd)
 
@@ -202,7 +159,6 @@ class DGRePlAce:
 
         if (self.rsmt == 1e9 or self.hpwl == 1e9 or self.congestion == 1e9 or self.density == 1e9):
            print("Error: DG-RePlAce failed to run")
-            #exit(1)
         
         return final_ppa      
 

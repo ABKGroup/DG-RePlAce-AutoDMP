@@ -1,1 +1,0 @@
-./tuner/run_tuner.sh 1 1 test/nvdla_nangate45_51/configspace.json test/nvdla_nangate45_51/NV_NVDLA_partition_c.aux test/nvdla_nangate45_51/nvdla_ppa.json \"\" 20 2 0 0 10 ./tuner test/nvdla_nangate45_51/mobohb_log | tee run.log
