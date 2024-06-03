@@ -230,32 +230,10 @@ candidates, paretos, df = get_candidates(result, num=args.num_pareto)
 print("Pareto candidates are:")
 print(candidates.to_markdown())
 
-
-
 ########################################################################################
 ### Write the solution out
 ########################################################################################
-if (True):
-    print("Sorry !  We temoporarily do not save the solution.")
-    exit()
+print("DG-RePlAce Autotuning is done !!!")
+print("Please run remaining PnR flow with the above candidate solutions !!!")
 
 
-# Save Pareto configs and generate DEFs
-print("Generating DEF files")
-dest = opj(args.log_dir, "best_cfgs")
-os.makedirs(dest, exist_ok=True)
-df.to_pickle(opj(dest, f"{netlist}.dataframe.pkl"))
-for _, row in candidates.iterrows():
-    cfg_id = "run-" + "_".join([s for s in re.findall(r"\b\d+\b", row["ID"])])
-    print(f"Generating DEF for candidate {cfg_id}")
-    src_cfg, dest_cfg = opj(args.log_dir, cfg_id), opj(dest, cfg_id)
-    shutil.copytree(src_cfg, dest_cfg, dirs_exist_ok=True)
-    # generate DEF
-    def_file = opj(dp_dir, f"{netlist}.ref.def")
-    macro_file = opj(dp_dir, f"{netlist}.macros")
-    pl_file = opj(src_cfg, netlist, f"{netlist}.gp.pl")
-    new_def_file = opj(dest_cfg, f"{netlist}.AutoDMP.def")
-    dp_to_def(def_file, pl_file, macro_file, new_def_file)
-
-# Plot Pareto curve
-plot_pareto(df, paretos, candidates, opj(dest, f"{netlist}.pareto.png"))

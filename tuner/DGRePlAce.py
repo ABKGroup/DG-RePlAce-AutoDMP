@@ -17,7 +17,6 @@ class DGRePlAce:
     def __init__(self, params):
         self.params = Params()
         self.update_params(params, "")
-        self.params.printWelcome()
         self.density = 0.0
         self.max_num_level = 2
         self.rsmt = 0.0
